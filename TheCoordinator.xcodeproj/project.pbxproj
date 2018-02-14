@@ -19,6 +19,7 @@
 		91643B1B2034365A00FDCF3C /* StoryboardLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91643B1A2034365A00FDCF3C /* StoryboardLoadable.swift */; };
 		91643B1D2034665800FDCF3C /* NewOrderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91643B1C2034665800FDCF3C /* NewOrderCoordinator.swift */; };
 		91643B2120346E4800FDCF3C /* ColorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91643B2020346E4800FDCF3C /* ColorsTableViewController.swift */; };
+		91C73F282034994B009EEFAA /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91643B22203490F900FDCF3C /* NameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		91643B1A2034365A00FDCF3C /* StoryboardLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardLoadable.swift; sourceTree = "<group>"; };
 		91643B1C2034665800FDCF3C /* NewOrderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderCoordinator.swift; sourceTree = "<group>"; };
 		91643B2020346E4800FDCF3C /* ColorsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTableViewController.swift; sourceTree = "<group>"; };
+		91643B22203490F900FDCF3C /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				912D4A77203351F000339D58 /* SplashViewController.swift */,
 				91643B2020346E4800FDCF3C /* ColorsTableViewController.swift */,
+				91643B22203490F900FDCF3C /* NameViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				912D4A6E2033489500339D58 /* RootViewCoordinator.swift in Sources */,
 				912D4A78203351F000339D58 /* SplashViewController.swift in Sources */,
 				912D4A5B2033480F00339D58 /* AppDelegate.swift in Sources */,
+				91C73F282034994B009EEFAA /* NameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

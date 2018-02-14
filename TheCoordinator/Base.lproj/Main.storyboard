@@ -69,7 +69,65 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TSD-kY-jNs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-487" y="96"/>
+            <point key="canvasLocation" x="-193" y="96"/>
+        </scene>
+        <!--Name View Controller-->
+        <scene sceneID="tO9-A9-Apa">
+            <objects>
+                <viewController storyboardIdentifier="NameViewController" id="N53-hn-nA8" customClass="NameViewController" customModule="TheCoordinator" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3Pg-Qb-auP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="e5N-3K-0qN">
+                                <rect key="frame" x="20" y="40" width="335" height="30"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FjT-uN-mRa">
+                                        <rect key="frame" x="0.0" y="0.0" width="163.5" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i10-oV-ihQ">
+                                        <rect key="frame" x="171.5" y="0.0" width="163.5" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjT-wg-pGq">
+                                <rect key="frame" x="16" y="597" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.2065367884" green="1" blue="0.21194835319999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="qva-3d-sKb"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="actionDoneWithSender:" destination="N53-hn-nA8" eventType="touchUpInside" id="C10-cT-5dq"/>
+                                    <action selector="newOrder:" destination="Aa0-uv-BYe" eventType="touchUpInside" id="nw4-FS-hA4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="tuH-3N-sCX" firstAttribute="trailing" secondItem="e5N-3K-0qN" secondAttribute="trailing" constant="20" id="908-bp-kxa"/>
+                            <constraint firstItem="tuH-3N-sCX" firstAttribute="bottom" secondItem="wjT-wg-pGq" secondAttribute="bottom" constant="20" id="KWg-hx-SdY"/>
+                            <constraint firstItem="e5N-3K-0qN" firstAttribute="leading" secondItem="tuH-3N-sCX" secondAttribute="leading" constant="20" id="TfE-Hr-Mus"/>
+                            <constraint firstItem="wjT-wg-pGq" firstAttribute="leading" secondItem="tuH-3N-sCX" secondAttribute="leading" constant="16" id="axq-po-mCT"/>
+                            <constraint firstItem="e5N-3K-0qN" firstAttribute="top" secondItem="tuH-3N-sCX" secondAttribute="top" constant="20" id="qZC-mO-k43"/>
+                            <constraint firstItem="tuH-3N-sCX" firstAttribute="trailing" secondItem="wjT-wg-pGq" secondAttribute="trailing" constant="16" id="uza-Gg-Fr7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tuH-3N-sCX"/>
+                    </view>
+                    <connections>
+                        <outlet property="tvFirstName" destination="FjT-uN-mRa" id="SCS-5X-3N8"/>
+                        <outlet property="tvSecondName" destination="i10-oV-ihQ" id="OKd-Sc-Rs6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5eO-GW-XII" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="512.79999999999995" y="95.802098950524751"/>
         </scene>
     </scenes>
 </document>

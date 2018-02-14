@@ -71,4 +71,9 @@ extension AppCoordinator: NewOrderCoordinatorDelegate {
         removeChildCoordinator(newOrderCoordinator)
     }
     
+    func newOrderCoordinator(newOrderCoordinator: NewOrderCoordinator, didAddOrder: NewOrderCoordinatorPayload) {
+        newOrderCoordinator.rootViewController.dismiss(animated: true)
+        self.removeChildCoordinator(newOrderCoordinator)
+    }
+    
 }
