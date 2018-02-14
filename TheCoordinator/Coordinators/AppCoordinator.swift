@@ -16,7 +16,7 @@ class AppCoordinator: RootViewCoordinator {
     var childCoordinators = [Coordinator]()
     
     var rootViewController: UIViewController {
-        return self.navigationController
+        return navigationController
     }
     
     private lazy var navigationController: UINavigationController = {
@@ -31,7 +31,7 @@ class AppCoordinator: RootViewCoordinator {
         self.services = services
         self.window = window
         
-        self.window.rootViewController = self.rootViewController
+        self.window.rootViewController = rootViewController
         self.window.makeKeyAndVisible()
     }
 
@@ -39,34 +39,36 @@ class AppCoordinator: RootViewCoordinator {
     
     /// Starts the coordinator
     public func start() {
-        self.showSplashViewController()
+        showSplashViewController()
     }
     
     private func showSplashViewController() {
         let splashViewController = SplashViewController.instantiate(fromStoryboardNamed: "Main")
-        splashViewController.services = self.services
+        splashViewController.services = services
         splashViewController.delegate = self
-        self.navigationController.viewControllers = [splashViewController]
+        navigationController.viewControllers = [splashViewController]
     }
 }
 
 // MARK: - SplashViewControllerDelegate
 
 extension AppCoordinator: SplashViewControllerDelegate {
+    
     func splashViewDidTapNewOrder(splashViewController: SplashViewController) {
         let newOrderCoordinator = NewOrderCoordinator(services)
         newOrderCoordinator.delegate = self
         newOrderCoordinator.start()
-        self.addChildCoordinator(newOrderCoordinator)
-        self.rootViewController.present(newOrderCoordinator.rootViewController, animated: true, completion: nil)
+        addChildCoordinator(newOrderCoordinator)
+        rootViewController.present(newOrderCoordinator.rootViewController, animated: true, completion: nil)
     }
+    
 }
 
 extension AppCoordinator: NewOrderCoordinatorDelegate {
     
     func newOrderCoordinatorDidRequestCancel(newOrderCoordinator: NewOrderCoordinator) {
         newOrderCoordinator.rootViewController.dismiss(animated: true)
-        self.removeChildCoordinator(newOrderCoordinator)
+        removeChildCoordinator(newOrderCoordinator)
     }
     
 }

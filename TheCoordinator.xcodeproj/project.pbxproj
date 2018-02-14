@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		912D4A5B2033480F00339D58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D4A5A2033480F00339D58 /* AppDelegate.swift */; };
-		912D4A5D2033480F00339D58 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D4A5C2033480F00339D58 /* ViewController.swift */; };
 		912D4A602033480F00339D58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 912D4A5E2033480F00339D58 /* Main.storyboard */; };
 		912D4A622033480F00339D58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 912D4A612033480F00339D58 /* Assets.xcassets */; };
 		912D4A652033480F00339D58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 912D4A632033480F00339D58 /* LaunchScreen.storyboard */; };
@@ -25,7 +24,6 @@
 /* Begin PBXFileReference section */
 		912D4A572033480F00339D58 /* TheCoordinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheCoordinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		912D4A5A2033480F00339D58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		912D4A5C2033480F00339D58 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		912D4A5F2033480F00339D58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		912D4A612033480F00339D58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		912D4A642033480F00339D58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		912D4A76203351DD00339D58 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				912D4A5C2033480F00339D58 /* ViewController.swift */,
 				912D4A77203351F000339D58 /* SplashViewController.swift */,
 				91643B2020346E4800FDCF3C /* ColorsTableViewController.swift */,
 			);
@@ -198,7 +195,6 @@
 				912D4A70203348FD00339D58 /* Coordinator.swift in Sources */,
 				91643B1D2034665800FDCF3C /* NewOrderCoordinator.swift in Sources */,
 				91643B2120346E4800FDCF3C /* ColorsTableViewController.swift in Sources */,
-				912D4A5D2033480F00339D58 /* ViewController.swift in Sources */,
 				912D4A6E2033489500339D58 /* RootViewCoordinator.swift in Sources */,
 				912D4A78203351F000339D58 /* SplashViewController.swift in Sources */,
 				912D4A5B2033480F00339D58 /* AppDelegate.swift in Sources */,

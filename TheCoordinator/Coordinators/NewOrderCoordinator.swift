@@ -14,7 +14,6 @@ protocol NewOrderCoordinatorDelegate: class {
 
 class NewOrderCoordinatorPayload {
     var colorSelected: UIColor?
-    var brandSelected: String?
 }
 
 class NewOrderCoordinator: RootViewCoordinator {
@@ -23,7 +22,7 @@ class NewOrderCoordinator: RootViewCoordinator {
     var childCoordinators: [Coordinator] = []
     
     var rootViewController: UIViewController {
-        return self.navigationController
+        return navigationController
     }
     
     weak var delegate: NewOrderCoordinatorDelegate?
@@ -44,12 +43,13 @@ class NewOrderCoordinator: RootViewCoordinator {
         let vcColors = ColorsTableViewController.instantiate(fromStoryboardNamed: "Main")
         vcColors.services = services
         vcColors.delegate = self
-        self.navigationController.pushViewController(vcColors, animated: true)
+        navigationController.pushViewController(vcColors, animated: true)
     }
     
 }
 
 extension NewOrderCoordinator: ColorsTableViewControllerDelegate {
+    
     func colorViewControllerDidTapClose(_ colorViewController: ColorsTableViewController) {
         delegate?.newOrderCoordinatorDidRequestCancel(newOrderCoordinator: self)
     }

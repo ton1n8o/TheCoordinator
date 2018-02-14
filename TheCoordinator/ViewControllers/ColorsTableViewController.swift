@@ -22,7 +22,7 @@ class ColorsTableViewController: UITableViewController, StoryboardLoadable {
         super.viewDidLoad()
         self.tableView.rowHeight = 55
         
-        self.title = "Select Drink"
+        self.title = "Select Color"
         self.navigationItem.leftBarButtonItem = self.closeBarButtonItem
     }
     
@@ -42,7 +42,9 @@ class ColorsTableViewController: UITableViewController, StoryboardLoadable {
     ]
     
     lazy var closeBarButtonItem: UIBarButtonItem = {
-        let closeBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(self.closeButtonTapped))
+        let closeBarButtonItem = UIBarButtonItem(
+            title: "Close", style: .plain, target: self, action: #selector(self.closeButtonTapped)
+        )
         return closeBarButtonItem
     }()
     
