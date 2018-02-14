@@ -64,4 +64,9 @@ extension AppCoordinator: SplashViewControllerDelegate {
 
 extension AppCoordinator: NewOrderCoordinatorDelegate {
     
+    func newOrderCoordinatorDidRequestCancel(newOrderCoordinator: NewOrderCoordinator) {
+        newOrderCoordinator.rootViewController.dismiss(animated: true)
+        self.removeChildCoordinator(newOrderCoordinator)
+    }
+    
 }

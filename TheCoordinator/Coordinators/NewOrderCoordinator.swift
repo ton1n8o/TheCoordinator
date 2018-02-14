@@ -9,7 +9,12 @@
 import UIKit
 
 protocol NewOrderCoordinatorDelegate: class {
-    
+    func newOrderCoordinatorDidRequestCancel(newOrderCoordinator: NewOrderCoordinator)
+}
+
+class NewOrderCoordinatorPayload {
+    var colorSelected: UIColor?
+    var brandSelected: String?
 }
 
 class NewOrderCoordinator: RootViewCoordinator {
@@ -22,6 +27,7 @@ class NewOrderCoordinator: RootViewCoordinator {
     }
     
     weak var delegate: NewOrderCoordinatorDelegate?
+    var orderPayload: NewOrderCoordinatorPayload?
     
     init(_ services: Services) {
         self.services = services
@@ -37,7 +43,18 @@ class NewOrderCoordinator: RootViewCoordinator {
     func start() {
         let vcColors = ColorsTableViewController.instantiate(fromStoryboardNamed: "Main")
         vcColors.services = services
+        vcColors.delegate = self
         self.navigationController.pushViewController(vcColors, animated: true)
     }
     
+}
+
+extension NewOrderCoordinator: ColorsTableViewControllerDelegate {
+    func colorViewControllerDidTapClose(_ colorViewController: ColorsTableViewController) {
+        delegate?.newOrderCoordinatorDidRequestCancel(newOrderCoordinator: self)
+    }
+    
+    func colorViewController(_ colorViewController: ColorsTableViewController, didSelectColor color: UIColor) {
+        
+    }
 }
