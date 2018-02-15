@@ -72,8 +72,36 @@ extension AppCoordinator: NewOrderCoordinatorDelegate {
     }
     
     func newOrderCoordinator(newOrderCoordinator: NewOrderCoordinator, didAddOrder: NewOrderCoordinatorPayload) {
+        
+        guard let color = didAddOrder.colorSelected
+            , let name = didAddOrder.nameSelected else {
+            return
+        }
+        
+        let order = Order(color: color.toHexString, constumerName: name)
+        
+        services.dataService.orders.append(order)
         newOrderCoordinator.rootViewController.dismiss(animated: true)
-        self.removeChildCoordinator(newOrderCoordinator)
+        removeChildCoordinator(newOrderCoordinator)
     }
     
+}
+
+extension UIColor {
+    
+    var toHexString: String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        return String(
+            format: "%02X%02X%02X",
+            Int(r * 0xff),
+            Int(g * 0xff),
+            Int(b * 0xff)
+        )
+    }
 }

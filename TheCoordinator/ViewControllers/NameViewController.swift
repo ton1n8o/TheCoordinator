@@ -22,6 +22,8 @@ class NameViewController: UIViewController, StoryboardLoadable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tvFirstName.delegate = self
+        tvSecondName.delegate = self
     }
     
     // MARK:  Actions
@@ -42,4 +44,13 @@ class NameViewController: UIViewController, StoryboardLoadable {
         
     }
 
+}
+
+extension NameViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
+    }
+    
 }
