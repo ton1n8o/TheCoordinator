@@ -19,3 +19,9 @@ platform :ios do
     upload_to_testflight
   end
 end
+
+# this way all the team have to  do is: run: fastlane certificates
+lane :certificates do
+  match(app_identifier: ["br.tntstudios.com.TheCoordinator"], readonly: true)
+end
+
