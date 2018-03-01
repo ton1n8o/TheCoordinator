@@ -29,7 +29,7 @@ platform :ios do
   		commit_version_bump(xcodeproj: "TheCoordinator.xcodeproj", force: true)
 
 		# perform pod install
-		cocoapods
+		# cocoapods
 
   	end
 
