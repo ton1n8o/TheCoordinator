@@ -9,19 +9,40 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.49.0"
+
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new beta build to TestFlight"
-  lane :beta do
-    increment_build_number(xcodeproj: "TheCoordinator.xcodeproj")
-    build_app(scheme: "TheCoordinator")
-    upload_to_testflight
-  end
-end
 
-# this way all the team have to  do is: run: fastlane certificates
-lane :certificates do
-  match(app_identifier: ["br.tntstudios.com.TheCoordinator"], readonly: true)
+	before_all do
+		# ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+
+		# If the GIT status is not clean, abort. We won't want to include junk in the build
+		ensure_git_status_clean
+
+		# Increase the Build number, based on commmit count
+		build_number = number_of_commits
+    	increment_build_number(build_number: build_number).to_s
+  		commit_version_bump(xcodeproj: "TheCoordinator.xcodeproj", force: true)
+
+		# perform pod install
+		cocoapods
+
+  	end
+
+  	# this way all the team have to  do is: run: fastlane certificates
+	lane :certificates do
+		match(app_identifier: ["br.tntstudios.com.TheCoordinator"], readonly: true)
+	end
+
+	desc "Push a new beta build to TestFlight"
+	lane :beta do
+		# increment_build_number(xcodeproj: "TheCoordinator.xcodeproj")
+		build_app(scheme: "TheCoordinator")
+		upload_to_testflight
+	end
 end
 
