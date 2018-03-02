@@ -15,27 +15,44 @@ fastlane_version "2.49.0"
 
 default_platform(:ios)
 
+# VARIABLES FOR CONFIGURATION
+
+ENV['XCODE_PROJECT'] = "TheCoordinator.xcodeproj"
+# Your tegerts separeted by comma. Eg: de.quandoo.ConsumerApp.Debug,de.quandoo.ConsumerApp.Debug.QuandooWidget
+ENV['TARGETS'] = "br.tntstudios.com.TheCoordinator"
+
 platform :ios do
 
-	before_all do
-		# ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+	before_all do |lane|
 
-		# If the GIT status is not clean, abort. We won't want to include junk in the build
-		ensure_git_status_clean
+		if lane != :certificates
+			# ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
 
-		# Increase the Build number, based on commmit count
-		build_number = number_of_commits
-    	increment_build_number(build_number: build_number).to_s
-  		commit_version_bump(xcodeproj: "TheCoordinator.xcodeproj", force: true)
+			# If the GIT status is not clean, abort. We won't want to include junk in the build
+			ensure_git_status_clean
 
-		# perform pod install
-		# cocoapods
+			# Increase the Build number, based on commmit count
+			build_number = number_of_commits
+	    	increment_build_number(build_number: build_number).to_s
+	  		commit_version_bump(xcodeproj: ENV['XCODE_PROJECT'], force: true)
+
+			# perform pod install
+			# cocoapods
+		end
 
   	end
 
-  	# this way all the team have to  do is: run: fastlane certificates
+  	desc "Runs all the tests"
+  	# DOC: https://docs.fastlane.tools/actions/scan/#scan
+  	lane :test do
+    	scan
+  	end
+
+	desc "Sync all keys, certificates and profiles for all targets"
+  	# by running: `fastlane certificates` you'll get all certificates needed.
+  	# DOC: https://docs.fastlane.tools/actions/match/
 	lane :certificates do
-		match(app_identifier: ["br.tntstudios.com.TheCoordinator"], readonly: true)
+		match(app_identifier: ENV['TARGETS'].split(","), readonly: true)
 	end
 
 	desc "Push a new beta build to TestFlight"

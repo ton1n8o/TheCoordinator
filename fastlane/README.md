@@ -16,11 +16,16 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
+### ios test
+```
+fastlane ios test
+```
+Runs all the tests
 ### ios certificates
 ```
 fastlane ios certificates
 ```
-
+Sync all keys, certificates and profiles for all targets
 ### ios beta
 ```
 fastlane ios beta
