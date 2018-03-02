@@ -13,7 +13,7 @@
 # Update this, if you use features of a newer version
 fastlane_version "2.49.0"
 
-default_platform(:ios)
+default_platform :ios
 
 # VARIABLES FOR CONFIGURATION
 
@@ -23,76 +23,149 @@ ENV['TARGETS'] = "br.tntstudios.com.TheCoordinator"
 
 platform :ios do
 
-	before_all do |lane|
+  	before_all do |lane|
 
-		if lane != :certificates
-			# ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+	  	if lane != :certificates
+		    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
 
-			# If the GIT status is not clean, abort. We won't want to include junk in the build
-			ensure_git_status_clean
+		    # If the GIT status is not clean, abort. We won't want to include junk in the build
+		    #ensure_git_status_clean
 
-			# Increase the Build number, based on commmit count
-			build_number = number_of_commits
-	    	increment_build_number(build_number: build_number).to_s
-	  		commit_version_bump(xcodeproj: ENV['XCODE_PROJECT'], force: true)
+		    # Increase the Build number, based on commmit count
+		    build_number = number_of_commits
+		  	increment_build_number(build_number: build_number).to_s
+		 	commit_version_bump(xcodeproj: ENV['XCODE_PROJECT'], force: true)
 
-			# perform pod install
-			# cocoapods
-		end
+		    # perform pod install
+		    cocoapods
+		end 
 
-  	end
-
-  	desc "Runs all the tests"
-  	# DOC: https://docs.fastlane.tools/actions/scan/#scan
-  	lane :test do
-    	scan
-  	end
-
-  	desc "Push a new beta build to TestFlight"
-	lane :beta do
-		# increment_build_number(xcodeproj: "TheCoordinator.xcodeproj")
-		build_app(scheme: "TheCoordinator")
-		upload_to_testflight
 	end
 
-	desc "Sync all keys, certificates and profiles for all targets"
+  	desc "Sync all keys, certificates and profiles for all targets"
   	# by running: `fastlane certificates` you'll get all certificates needed.
   	# DOC: https://docs.fastlane.tools/actions/match/
 	lane :certificates do
 		match(app_identifier: ENV['TARGETS'].split(","), readonly: true)
-	end
+	end		
 
-	end
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
 
-  	after_all do |lane|
+  desc "Submit a new Alpha Build to Crashlitycs"
+  lane :stage do
 
-	    # slack(
-	    #   message: "Successfully deployed new App Update."
-	    # )
+    crashlytics_common(gym_configuration: "Stage")
 
-	    clean_build_artifacts(
-	      exclude_pattern: ".*\.mobileprovision"
-	    )
+  end
 
-	    # Reset all changes to the git checkout
-	    reset_git_repo(
-	      force: true
-	    )
-	    
-	end 
+  desc "Submit a new Beta Build to Crashlitycs"
+  lane :beta do
 
-	error do |lane, exception|
+    crashlytics_common(gym_configuration: "Beta")
 
-	    clean_build_artifacts(
-	      exclude_pattern: ".*\.mobileprovision"
-	    )
+  end
 
-	    # Reset all changes to the git checkout
-	    reset_git_repo(
-	      force: true
-	    )
+  private_lane :crashlytics_common do |options|
 
-  	end
-	
+    changelog = sh("git log --graph --pretty=format:'%h -%d %s <%an>' --abbrev-commit #{ENV['GIT_PREVIOUS_SUCCESSFUL_COMMIT'] || 'HEAD^^^^^'}..HEAD")
+
+    build_application(
+      gym_configuration: options[:gym_configuration],
+      export_method: "ad-hoc",
+    )
+
+    upload_to_crashlitycs(notes: "#{changelog.to_s}")
+
+  end
+
+  private_lane :test_flight_common do |options|
+
+    build_application(
+      gym_configuration: options[:gym_configuration],
+      export_method: "app-store"
+    )
+
+    pilot(
+      app_identifier: "br.tntstudios.com.TheCoordinator",
+      skip_waiting_for_build_processing: true
+    )
+
+  end
+
+  private_lane :build_application do |options|
+
+    gym(
+      scheme: "TheCoordinator",
+      configuration: options[:gym_configuration],
+      export_method: options[:export_method],
+      export_options: {
+      	provisioningProfiles: { 
+    		"br.tntstudios.com.TheCoordinator" => "match AdHoc br.tntstudios.com.TheCoordinator",
+    		"br.tntstudios.com.TheCoordinator" => "match AppStore br.tntstudios.com.TheCoordinator",
+    		"br.tntstudios.com.TheCoordinator" => "match Development br.tntstudios.com.TheCoordinator"
+  		}
+      }
+    )
+
+  end
+
+  private_lane :upload_to_crashlitycs do |options|
+
+    crashlytics(
+    	api_token: "61a669bff277689aedaad8332f5a5a147a225187",
+        build_secret: "3c394e60604af5090fb854549acb55ccf73a007eb2068cb39411227af52d0f92",
+        notes: options[:notes]
+    )
+
+  end
+
+  desc "Deploy a release candidate to the App Store"
+  lane :release do
+
+    test_flight_common(gym_configuration: "Release")
+
+  end
+
+  desc "Deploy an internal build to Test Flight"
+  lane :internal do
+
+    test_flight_common(gym_configuration: "Internal")
+
+  end
+
+  # You can define as many lanes as you want
+
+  # after_all do |lane|
+
+  #   # slack(
+  #   #   message: "Successfully deployed new App Update."
+  #   # )
+
+  #   clean_build_artifacts(
+  #     exclude_pattern: ".*\.mobileprovision"
+  #   )
+
+  #   # Reset all changes to the git checkout
+  #   reset_git_repo(
+  #     force: true
+  #   )
+
+  # end
+
+  # error do |lane, exception|
+
+  #   clean_build_artifacts(
+  #     exclude_pattern: ".*\.mobileprovision"
+  #   )
+
+  #   # Reset all changes to the git checkout
+  #   reset_git_repo(
+  #     force: true
+  #   )
+
+  # end
+
 end
-
