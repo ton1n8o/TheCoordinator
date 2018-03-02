@@ -48,18 +48,19 @@ platform :ios do
     	scan
   	end
 
+  	desc "Push a new beta build to TestFlight"
+	lane :beta do
+		# increment_build_number(xcodeproj: "TheCoordinator.xcodeproj")
+		build_app(scheme: "TheCoordinator")
+		upload_to_testflight
+	end
+
 	desc "Sync all keys, certificates and profiles for all targets"
   	# by running: `fastlane certificates` you'll get all certificates needed.
   	# DOC: https://docs.fastlane.tools/actions/match/
 	lane :certificates do
 		match(app_identifier: ENV['TARGETS'].split(","), readonly: true)
 	end
-
-	desc "Push a new beta build to TestFlight"
-	lane :beta do
-		# increment_build_number(xcodeproj: "TheCoordinator.xcodeproj")
-		build_app(scheme: "TheCoordinator")
-		upload_to_testflight
-	end
+	
 end
 

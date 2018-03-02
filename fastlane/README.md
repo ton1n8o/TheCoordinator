@@ -21,16 +21,16 @@ or alternatively using `brew cask install fastlane`
 fastlane ios test
 ```
 Runs all the tests
-### ios certificates
-```
-fastlane ios certificates
-```
-Sync all keys, certificates and profiles for all targets
 ### ios beta
 ```
 fastlane ios beta
 ```
 Push a new beta build to TestFlight
+### ios certificates
+```
+fastlane ios certificates
+```
+Sync all keys, certificates and profiles for all targets
 
 ----
 
