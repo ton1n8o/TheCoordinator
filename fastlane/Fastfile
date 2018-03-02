@@ -61,6 +61,38 @@ platform :ios do
 	lane :certificates do
 		match(app_identifier: ENV['TARGETS'].split(","), readonly: true)
 	end
+
+	end
+
+  	after_all do |lane|
+
+	    # slack(
+	    #   message: "Successfully deployed new App Update."
+	    # )
+
+	    clean_build_artifacts(
+	      exclude_pattern: ".*\.mobileprovision"
+	    )
+
+	    # Reset all changes to the git checkout
+	    reset_git_repo(
+	      force: true
+	    )
+	    
+	end 
+
+	error do |lane, exception|
+
+	    clean_build_artifacts(
+	      exclude_pattern: ".*\.mobileprovision"
+	    )
+
+	    # Reset all changes to the git checkout
+	    reset_git_repo(
+	      force: true
+	    )
+
+  	end
 	
 end
 
