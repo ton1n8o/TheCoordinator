@@ -1,4 +1,5 @@
 *.dSYM.zip
 *.ipa
+*/report.xml
 
 fastlane/test_output/*
