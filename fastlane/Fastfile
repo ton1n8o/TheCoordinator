@@ -18,7 +18,7 @@ default_platform :ios
 # VARIABLES FOR CONFIGURATION
 
 ENV['XCODE_PROJECT'] = "TheCoordinator.xcodeproj"
-# Your tegerts separeted by comma. Eg: de.quandoo.ConsumerApp.Debug,de.quandoo.ConsumerApp.Debug.QuandooWidget
+# Your targets separated by comma. Eg: de.quandoo.ConsumerApp.Debug,de.quandoo.ConsumerApp.Debug.QuandooWidget
 ENV['TARGETS'] = "br.tntstudios.com.TheCoordinator"
 
 platform :ios do
@@ -26,6 +26,7 @@ platform :ios do
   	before_all do |lane|
 
 	  	if lane != :certificates
+
 		    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
 
 		    # If the GIT status is not clean, abort. We won't want to include junk in the build
@@ -38,6 +39,7 @@ platform :ios do
 
 		    # perform pod install
 		    cocoapods
+
 		end 
 
 	end
@@ -46,95 +48,104 @@ platform :ios do
   	# by running: `fastlane certificates` you'll get all certificates needed.
   	# DOC: https://docs.fastlane.tools/actions/match/
 	lane :certificates do
+
 		match(app_identifier: ENV['TARGETS'].split(","), readonly: true)
+
 	end		
 
-  desc "Runs all the tests"
-  lane :test do
-    scan
-  end
+	desc "Runs all the tests"
+	lane :test do
 
-  desc "Submit a new Alpha Build to Crashlitycs"
-  lane :stage do
+		scan
 
-    crashlytics_common(gym_configuration: "Stage")
+	end
 
-  end
+	###############################################################
+	###                     deploy lanes                        ###
+	###############################################################
 
-  desc "Submit a new Beta Build to Crashlitycs"
-  lane :beta do
+	desc "Submit a new Alpha Build to Crashlitycs"
+	lane :stage do
 
-    crashlytics_common(gym_configuration: "Beta")
+		crashlytics_common(gym_configuration: "Stage")
 
-  end
+	end
 
-  private_lane :crashlytics_common do |options|
+	desc "Submit a new Beta Build to Crashlitycs"
+	lane :beta do
 
-    changelog = sh("git log --graph --pretty=format:'%h -%d %s <%an>' --abbrev-commit #{ENV['GIT_PREVIOUS_SUCCESSFUL_COMMIT'] || 'HEAD^^^^^'}..HEAD")
+		crashlytics_common(gym_configuration: "Beta")
 
-    build_application(
-      gym_configuration: options[:gym_configuration],
-      export_method: "ad-hoc",
-    )
+	end
 
-    upload_to_crashlitycs(notes: "#{changelog.to_s}")
+		desc "Deploy a release candidate to the App Store"
+	lane :release do
 
-  end
+		test_flight_common(gym_configuration: "Release")
 
-  private_lane :test_flight_common do |options|
+	end
 
-    build_application(
-      gym_configuration: options[:gym_configuration],
-      export_method: "app-store"
-    )
+	desc "Deploy an internal build to Test Flight"
+	lane :internal do
 
-    pilot(
-      app_identifier: "br.tntstudios.com.TheCoordinator",
-      skip_waiting_for_build_processing: true
-    )
+		test_flight_common(gym_configuration: "Internal")
 
-  end
+	end
 
-  private_lane :build_application do |options|
+	###############################################################
+	###                    private lanes                        ###
+	###############################################################
 
-    gym(
-      scheme: "TheCoordinator",
-      configuration: options[:gym_configuration],
-      export_method: options[:export_method],
-      export_options: {
-      	provisioningProfiles: { 
-    		"br.tntstudios.com.TheCoordinator" => "match AdHoc br.tntstudios.com.TheCoordinator",
-    		"br.tntstudios.com.TheCoordinator" => "match AppStore br.tntstudios.com.TheCoordinator",
-    		"br.tntstudios.com.TheCoordinator" => "match Development br.tntstudios.com.TheCoordinator"
-  		}
-      }
-    )
+	private_lane :crashlytics_common do |options|
 
-  end
+		changelog = sh("git log --graph --pretty=format:'%h -%d %s <%an>' --abbrev-commit #{ENV['GIT_PREVIOUS_SUCCESSFUL_COMMIT'] || 'HEAD^^^^^'}..HEAD")
 
-  private_lane :upload_to_crashlitycs do |options|
+    	build_application(
+			gym_configuration: options[:gym_configuration],
+			export_method: "ad-hoc",
+		)
 
-    crashlytics(
-    	api_token: "61a669bff277689aedaad8332f5a5a147a225187",
-        build_secret: "3c394e60604af5090fb854549acb55ccf73a007eb2068cb39411227af52d0f92",
-        notes: options[:notes]
-    )
+    	upload_to_crashlitycs(notes: "#{changelog.to_s}")
 
-  end
+	end
 
-  desc "Deploy a release candidate to the App Store"
-  lane :release do
+	private_lane :test_flight_common do |options|
 
-    test_flight_common(gym_configuration: "Release")
+		build_application(
+			gym_configuration: options[:gym_configuration],
+			export_method: "app-store"
+		)
 
-  end
+		pilot(
+			app_identifier: "br.tntstudios.com.TheCoordinator",
+			skip_waiting_for_build_processing: true
+		)
 
-  desc "Deploy an internal build to Test Flight"
-  lane :internal do
+	end
 
-    test_flight_common(gym_configuration: "Internal")
+	private_lane :build_application do |options|
 
-  end
+		gym(
+			scheme: "TheCoordinator",
+			configuration: options[:gym_configuration],
+			export_method: options[:export_method]
+		)
+
+	end
+
+	private_lane :upload_to_crashlitycs do |options|
+
+		crashlytics(
+			api_token: "61a669bff277689aedaad8332f5a5a147a225187",
+			build_secret: "3c394e60604af5090fb854549acb55ccf73a007eb2068cb39411227af52d0f92",
+			notes: options[:notes]
+		)
+
+	end
+
+	###############################################################
+	###                 final steps + error case                ###
+	###############################################################
 
   # You can define as many lanes as you want
 
