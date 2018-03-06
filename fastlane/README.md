@@ -31,21 +31,16 @@ Runs all the tests
 fastlane ios stage
 ```
 Submit a new Alpha Build to Crashlitycs
-### ios beta
-```
-fastlane ios beta
-```
-Submit a new Beta Build to Crashlitycs
 ### ios release
 ```
 fastlane ios release
 ```
 Deploy a release candidate to the App Store
-### ios internal
+### ios beta
 ```
-fastlane ios internal
+fastlane ios beta
 ```
-Deploy an internal build to Test Flight
+Submit a new Beta Build to Crashlitycs
 
 ----
 

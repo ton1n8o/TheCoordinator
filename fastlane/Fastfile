@@ -71,24 +71,17 @@ platform :ios do
 
 	end
 
-	desc "Submit a new Beta Build to Crashlitycs"
-	lane :beta do
-
-		crashlytics_common(gym_configuration: "Beta")
-
-	end
-
-		desc "Deploy a release candidate to the App Store"
+	desc "Deploy a release candidate to the App Store"
 	lane :release do
 
 		test_flight_common(gym_configuration: "Release")
 
 	end
 
-	desc "Deploy an internal build to Test Flight"
-	lane :internal do
+	desc "Submit a new Beta Build to Crashlitycs"
+	lane :beta do
 
-		test_flight_common(gym_configuration: "Internal")
+		crashlytics_common(gym_configuration: "Beta")
 
 	end
 
